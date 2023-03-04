@@ -11,7 +11,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public TextMeshProUGUI OccupancyRateText_ForSchool;
     public TextMeshProUGUI OccupancyRateText_ForOutdoor;
 
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +51,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
         mapType = MultiplayerVRConstants.MAP_TYPE_VALUE_SCHOOL;
         ExitGames.Client.Photon.Hashtable expectedCustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { {MultiplayerVRConstants.MAP_TYPE_KEY, mapType } };
         PhotonNetwork.JoinRandomRoom(expectedCustomRoomProperties,0);
+    }
+
+    public void BuyItemOne(string publickey)
+    {
+
+    }
+    public void BuyItemTwo(string publickey)
+    {
+
     }
     #endregion
 

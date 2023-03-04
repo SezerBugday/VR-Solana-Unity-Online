@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+
+    public GameObject MarketPanel,MapPanel;
+    public Button marketAc, marketKapa;
     void Start()
     {
-        
+        marketAc.onClick.AddListener(() => OpenMarket());
+        marketKapa.onClick.AddListener(() => CloseMarket());
+    }
+    public void OpenMarket()
+    {
+        MarketPanel.SetActive(true);
+        MapPanel.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CloseMarket()
     {
-        
+        MarketPanel.SetActive(false);
+        MapPanel.SetActive(true);
     }
 }

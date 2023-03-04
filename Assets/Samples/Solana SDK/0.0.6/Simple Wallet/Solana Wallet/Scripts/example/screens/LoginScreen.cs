@@ -34,6 +34,8 @@ namespace Solana.Unity.SDK.Example
             passwordInputField.text = string.Empty;
         }
 
+
+
         private void Start()
         {
             passwordText.text = "";
@@ -102,11 +104,11 @@ namespace Solana.Unity.SDK.Example
             if (account != null)
             {
                 dropdownRpcCluster.interactable = false;
-                //manager.ShowScreen(this, "wallet_screen");
+                manager.ShowScreen(this, "wallet_screen");
                 messageTxt.gameObject.SetActive(false);
                 gameObject.SetActive(false);
                 Debug.Log("Girildi");
-                SceneManager.LoadScene("HomeScene");
+                //SceneManager.LoadScene("HomeScene");
             }
             else
             {

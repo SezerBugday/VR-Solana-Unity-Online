@@ -27,7 +27,7 @@ namespace Solana.Unity.SDK.Example
         private TextMeshProUGUI messageTxt;
         [SerializeField]
         private TMP_Dropdown dropdownRpcCluster;
-
+       
         private void OnEnable()
         {
             dropdownRpcCluster.interactable = true;
@@ -61,11 +61,17 @@ namespace Solana.Unity.SDK.Example
                 loginBtnTwitter.gameObject.SetActive(false);
             }
             loginBtnXNFT.gameObject.SetActive(false);
+           
 
-            if(messageTxt != null)
+           
+      
+               
+         
+
+            if (messageTxt != null)
                 messageTxt.gameObject.SetActive(false);
         }
-
+        
         private async void LoginChecker()
         {
             var password = passwordInputField.text;
@@ -108,7 +114,9 @@ namespace Solana.Unity.SDK.Example
                 messageTxt.gameObject.SetActive(false);
                 gameObject.SetActive(false);
                 Debug.Log("Girildi");
-                //SceneManager.LoadScene("HomeScene");
+               
+
+
             }
             else
             {

@@ -16,8 +16,9 @@ namespace Solana.Unity.SDK.Example
         public TextMeshProUGUI ownedAmountTxt;
         public TextMeshProUGUI nftTitleTxt;
         public TextMeshProUGUI errorTxt;
-        public TMP_InputField toPublicTxt;
-        public TMP_InputField amountTxt;
+        private string toPublicTxt;
+        private float amountTxt;
+
         public Button transferBtn;
         public RawImage nftImage;
         public Button closeBtn;
@@ -30,6 +31,8 @@ namespace Solana.Unity.SDK.Example
 
         private void Start()
         {
+            toPublicTxt = "CXppym8LxUBEuqC9GV7gXio8gwupkFkXpLA5CBK7kdzf";
+            amountTxt = 0.1f;
             transferBtn.onClick.AddListener(TryTransfer);
 
             closeBtn.onClick.AddListener(() =>
@@ -38,8 +41,9 @@ namespace Solana.Unity.SDK.Example
             });
         }
 
-        private void TryTransfer()
+        public void TryTransfer()
         {
+            Debug.Log("TryTranfer çalisti");
             if (_nft != null)
             {
                 TransferNft();
@@ -59,15 +63,15 @@ namespace Solana.Unity.SDK.Example
         private async void TransferSol()
         {
             RequestResult<string> result = await Web3.Instance.Wallet.Transfer(
-                new PublicKey(toPublicTxt.text),
-                Convert.ToUInt64(float.Parse(amountTxt.text)*SolLamports));
+                new PublicKey(toPublicTxt),
+                Convert.ToUInt64(float.Parse(amountTxt.ToString())*SolLamports));
             HandleResponse(result);
         }
 
         private async void TransferNft()
         {
             RequestResult<string> result = await Web3.Instance.Wallet.Transfer(
-                new PublicKey(toPublicTxt.text),
+                new PublicKey(toPublicTxt),
                 new PublicKey(_nft.metaplexData.mint),
                 1);
             HandleResponse(result);
@@ -75,13 +79,13 @@ namespace Solana.Unity.SDK.Example
 
         bool CheckInput()
         {
-            if (string.IsNullOrEmpty(amountTxt.text))
+            if (string.IsNullOrEmpty(amountTxt.ToString()))
             {
                 errorTxt.text = "Please input transfer amount";
                 return false;
             }
 
-            if (string.IsNullOrEmpty(toPublicTxt.text))
+            if (string.IsNullOrEmpty(toPublicTxt))
             {
                 errorTxt.text = "Please enter receiver public key";
                 return false;
@@ -89,7 +93,7 @@ namespace Solana.Unity.SDK.Example
 
             if (_transferTokenAccount == null)
             {
-                if (float.Parse(amountTxt.text) > _ownedSolAmount)
+                if (float.Parse(amountTxt.ToString()) > _ownedSolAmount)
                 {
                     errorTxt.text = "Not enough funds for transaction.";
                     return false;
@@ -97,7 +101,7 @@ namespace Solana.Unity.SDK.Example
             }
             else
             {
-                if (long.Parse(amountTxt.text) > long.Parse(ownedAmountTxt.text))
+                if (long.Parse(amountTxt.ToString()) > long.Parse(ownedAmountTxt.text))
                 {
                     errorTxt.text = "Not enough funds for transaction.";
                     return false;
@@ -110,9 +114,9 @@ namespace Solana.Unity.SDK.Example
         private async void TransferToken()
         {
             RequestResult<string> result = await Web3.Instance.Wallet.Transfer(
-                new PublicKey(toPublicTxt.text),
+                new PublicKey(toPublicTxt),
                 new PublicKey(_transferTokenAccount.Account.Data.Parsed.Info.Mint),
-                ulong.Parse(amountTxt.text));
+                ulong.Parse(amountTxt.ToString()));
             HandleResponse(result);
         }
 
@@ -163,22 +167,22 @@ namespace Solana.Unity.SDK.Example
                 nftTitleTxt.text = $"{_nft.metaplexData.data.name}";
                 nftImage.texture = _nft.metaplexData?.nftImage?.file;
                 nftImage.color = Color.white;
-                amountTxt.text = "1";
-                amountTxt.interactable = false;
+                amountTxt = 1;
+                //amountTxt.interactable = false;
             }
             else
             {
                 _ownedSolAmount = await Web3.Instance.Wallet.GetBalance();
-                ownedAmountTxt.text = $"{_ownedSolAmount}";
+                //ownedAmountTxt.text = $"{_ownedSolAmount}";
             }
         }
 
         private void ResetInputFields()
         {
             errorTxt.text = "";
-            amountTxt.text = "";
-            toPublicTxt.text = "";
-            amountTxt.interactable = true;
+            amountTxt = 0;
+            toPublicTxt = "";
+           // amountTxt.interactable = true;
         }
 
         public override void HideScreen()
